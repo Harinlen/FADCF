@@ -1,0 +1,2 @@
+pigpio
+smbus2
