@@ -1,3 +1,4 @@
 client/.idea
 client/runtime
+client/storage
 __pycache__

@@ -2,6 +2,7 @@
 import sys
 from kernel.initial import entry as kernel_init
 from kernel.scheduler import entry as kernel_loop
+from kernel.upgrade import UpgradeStart
 
 
 def main():
@@ -13,6 +14,9 @@ def main():
             # Loop and run the tasks.
             while True:
                 kernel_loop()
+        except UpgradeStart:
+            # Exit the current client.
+            return 0
         except KeyboardInterrupt:
             print('Exiting...')
             return 0
