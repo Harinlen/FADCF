@@ -5,9 +5,11 @@ import importlib
 
 
 def main():
-    # Change the working directory.
-    os.chdir(os.path.dirname(os.path.dirname(__file__)))
-    
+    # Configure the Python execution environment.
+    from paths import DIR_ROOT
+    sys.path.insert(0, DIR_ROOT)
+    os.chdir(os.path.dirname(__file__))
+
     from kernel.exception import (RuntimeLogError, CriticalLogError,
                                   LogKeyboardInterrupt)
     from lib.upgrade import UpgradeStart
