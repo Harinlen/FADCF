@@ -1,0 +1,6 @@
+# -*- coding: utf-8 -*-
+SYSTEM_VERSION = 1
+
+KERNEL_MAJOR = 1
+KERNEL_MINOR = 0
+KERNEL_PATCH = 0

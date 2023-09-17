@@ -2,7 +2,6 @@
 import os
 import sys
 import subprocess
-import pickle
 import hashlib
 from kernel.paths import DIR_STORAGE, DIR_KERNEL
 from kernel.mem import usr
@@ -18,12 +17,12 @@ class UpgradeStart(Exception):
 def upgrade_start():
     # Save the user object to swap.
     with open(USR_SWAP_PATH, 'wb') as usr_swap_file:
-        pickle.dump(usr, usr_swap_file)
+        usr.dump(usr_swap_file)
     # Save the checksum of the HASH.
     with open(USR_SWAP_HASH_PATH, 'w') as usr_swap_hash_file:
         usr_swap_hash_file.write(hashlib.md5(open(USR_SWAP_PATH, 'rb').read()).hexdigest())
     # Create the upgrade flag.
-
+    pass
     # Start the upgrade process.
     subprocess.Popen([sys.executable, __file__], cwd=os.getcwd())
     # Mark the system upgrade status.
@@ -38,7 +37,8 @@ def upgrade_main():
     # Update the client source code.
     pass
     # Restart the system.
-    subprocess.Popen([sys.executable, os.path.join(DIR_KERNEL, 'bootstrap.py')], cwd=os.getcwd())
+    subprocess.Popen([sys.executable, os.path.join(DIR_KERNEL,
+                                                   '../kernel/bootstrap.py')], cwd=os.getcwd())
     return 0
 
 
