@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-ARCH = 'x86'
+ARCH = 'raspi'
 DEBUG = True

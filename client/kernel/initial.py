@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import psutil
+import math
+import sys
 import importlib
 import platform
 from mem import MemoryProxy
@@ -21,7 +23,8 @@ def entry(mem_proxy: MemoryProxy):
     log_info('Core Kernel version: {}.{}.{}'.format(
         version.KERNEL_MAJOR, version.KERNEL_MINOR, version.KERNEL_PATCH))
     log_info('Hardware:', hal.device_name)
-    log_info('Python Version:', platform.python_version())
+    python_bits = int(math.log2(sys.maxsize)) + 1
+    log_info('Python Version:', platform.python_version(), '{}-bit'.format(python_bits))
     log_info('Memory:', psutil.virtual_memory().total // 1048576, 'MiB')
     # Load the usr init source code.
     try:

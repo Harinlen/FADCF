@@ -5,4 +5,4 @@ create_venv() {
   python -m venv runtime
 }
 
-create_venv()
+create_venv
