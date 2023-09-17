@@ -8,6 +8,7 @@ class HAL(HardwareAbstractLayer):
         super().__init__()
         # Initial the device name.
         self.device_name = 'Raspberry Pi'
+        self.bits = 64
         # Loaded buses.
         self.load_i2c()
 

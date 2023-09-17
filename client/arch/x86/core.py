@@ -7,3 +7,4 @@ class HAL(HardwareAbstractLayer):
         super().__init__()
         # Initial the device name.
         self.device_name = 'Generic x86 Device'
+        self.bits = 64
