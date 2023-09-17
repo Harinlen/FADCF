@@ -6,7 +6,9 @@ from io import StringIO
 from kernel.exception import RuntimeLogError, CriticalLogError
 from datetime import datetime
 from kernel.paths import DIR_STORAGE, ensure_dir
-from kernel.conf import DEBUG
+from kernel.mem import MemoryProxy
+
+LOG_TO_CONSOLE = False
 
 LOG_DIR = os.path.join(DIR_STORAGE, 'logs')
 LOG_ERRORS = os.path.join(LOG_DIR, 'errors.txt')
@@ -21,14 +23,14 @@ def open_log(path: str):
 class LogBuffer:
     def __init__(self, log_path: str, buf_size: int):
         self.log_path = log_path
-        if DEBUG:
+        if LOG_TO_CONSOLE:
             return
         self.buffer = ['' for _ in range(buf_size)]
         self.buffer_pos = 0
 
     def flush(self):
         # Check pointer position.
-        if DEBUG or self.buffer_pos == 0:
+        if LOG_TO_CONSOLE or self.buffer_pos == 0:
             return
         # Write the content line by line.
         with open_log(self.log_path) as log_file:
@@ -41,7 +43,7 @@ class LogBuffer:
 
     @staticmethod
     def timestamp_text(timestamp: datetime):
-        return '[{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}] '.format(
+        return '[{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}]'.format(
             timestamp.year, timestamp.month, timestamp.day,
             timestamp.hour, timestamp.minute, timestamp.second)
 
@@ -49,7 +51,7 @@ class LogBuffer:
         def __write_log(file, end):
             print(LogBuffer.timestamp_text(datetime.now()), *objects,
                   sep=sep, end=end, file=file)
-        if DEBUG:
+        if LOG_TO_CONSOLE:
             __write_log(None, '\n')
             return
 
@@ -69,9 +71,11 @@ info_buffer = LogBuffer(LOG_INFO, LOG_BUF_LIMIT)
 warning_buffer = LogBuffer(LOG_WARNING, LOG_BUF_LIMIT)
 
 
-def logging_start():
+def logging_start(mem_proxy: MemoryProxy):
     # Use console when debug mode enabled.
-    if DEBUG:
+    global LOG_TO_CONSOLE
+    LOG_TO_CONSOLE = mem_proxy.get('conf').DEBUG
+    if LOG_TO_CONSOLE:
         return
     # Ensure directory exist.
     ensure_dir(LOG_DIR, 'Failed to create log directory.')
@@ -86,7 +90,7 @@ def error(*objects, sep=' ', end='\n'):
         print(LogBuffer.timestamp_text(datetime.now()), *objects,
               sep=sep, end=end, file=file)
 
-    if DEBUG:
+    if LOG_TO_CONSOLE:
         __write_log(sys.stderr)
         return
 

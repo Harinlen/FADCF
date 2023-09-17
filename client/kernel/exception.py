@@ -13,13 +13,21 @@ class CriticalLogError(Exception):
         return ''
 
 
+class LogGeneralError(CriticalLogError):
+    def __init__(self, text: str):
+        self.error_text = text
+
+    def dump(self):
+        return self.error_text
+
+
 class LogNoModuleError(CriticalLogError):
     def __init__(self, name: str):
         super().__init__()
         self.name = name
 
     def dump(self):
-        return 'No module name "{}"'.format(self.name)
+        return 'Failed to find Python module "{}"'.format(self.name)
 
 
 class LogNoArchError(CriticalLogError):
@@ -29,6 +37,10 @@ class LogNoArchError(CriticalLogError):
 
     def dump(self):
         return 'Architecture "{}" not support.'.format(self.name)
+
+
+class LogSchedulerLoadFailError(LogGeneralError):
+    pass
 
 
 class LogKeyboardInterrupt(Exception):

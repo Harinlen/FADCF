@@ -30,6 +30,3 @@ class Memory:
         # Dump the memory dict pool to the file.
         with self.__lock:
             pickle.dump(self.__data, file)
-
-
-usr = None

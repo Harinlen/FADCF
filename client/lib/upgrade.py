@@ -4,7 +4,7 @@ import sys
 import subprocess
 import hashlib
 from kernel.paths import DIR_STORAGE, DIR_KERNEL
-from kernel.mem import usr
+from kernel.mem import Memory
 
 USR_SWAP_PATH = os.path.join(DIR_STORAGE, 'usr_swap')
 USR_SWAP_HASH_PATH = os.path.join(DIR_STORAGE, 'usr_swap.md5')
@@ -14,10 +14,10 @@ class UpgradeStart(Exception):
     pass
 
 
-def upgrade_start():
+def upgrade_start(mem: Memory):
     # Save the user object to swap.
     with open(USR_SWAP_PATH, 'wb') as usr_swap_file:
-        usr.dump(usr_swap_file)
+        mem.dump(usr_swap_file)
     # Save the checksum of the HASH.
     with open(USR_SWAP_HASH_PATH, 'w') as usr_swap_hash_file:
         usr_swap_hash_file.write(hashlib.md5(open(USR_SWAP_PATH, 'rb').read()).hexdigest())
