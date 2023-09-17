@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
+import os
 import sys
 import importlib
-from kernel.exception import (RuntimeLogError, CriticalLogError,
-                              LogKeyboardInterrupt)
-from kernel.paths import DIR_STORAGE, ensure_dir
-from lib.upgrade import UpgradeStart
 
 
 def main():
+    # Change the working directory.
+    os.chdir(os.path.dirname(os.path.dirname(__file__)))
+    
+    from kernel.exception import (RuntimeLogError, CriticalLogError,
+                                  LogKeyboardInterrupt)
+    from lib.upgrade import UpgradeStart
+
     def __backbone():
         # Extract the memory access proxy.
         import kernel.mem as mem
@@ -25,6 +29,7 @@ def main():
             pass
         mem_proxy.set('conf', conf)
         # Initial the system Storage directory structure.
+        from kernel.paths import DIR_STORAGE, ensure_dir
         ensure_dir(DIR_STORAGE,
                    'Failed to create storage directory.')
         # Initial the Logging service.
