@@ -119,4 +119,4 @@ def runtime_error_dump(exc: RuntimeLogError):
 
 def critical_error_dump(exc: CriticalLogError):
     # Print the critical error info.
-    error(exc.dump())
+    error(str(exc))

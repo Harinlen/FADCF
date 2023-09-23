@@ -12,8 +12,8 @@ class HardwareAbstractLayer:
     def __init__(self):
         self.device_name = 'Unknown'
         self.bits = 8
-        self.i2c_buses = []
-        self.pwm_buses = []
+        self.i2c_buses = {}
+        self.pwm_buses = {}
         self.os = self.OS.UNKNOWN
         # Detect the operating system.
         if platform.system() == 'Linux':

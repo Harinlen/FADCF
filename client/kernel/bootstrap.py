@@ -75,7 +75,7 @@ def main():
             pass
         except CriticalLogError as exc:
             # Critical error happens, need to stop.
-            print('Critical error:', exc.dump())
+            print('Critical error:', exc)
             return 1
         except Exception as exc:
             raise exc

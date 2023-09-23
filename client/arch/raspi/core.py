@@ -25,14 +25,13 @@ class HAL(HardwareAbstractLayer):
                 from bus.i2c_smbus import BusI2CSmbus
             except ModuleNotFoundError as exc:
                 raise LogNoModuleError(exc.name)
-            i2c_proxy = []
+            i2c_proxy = {}
             # Find all I2C devices from /dev list
             for i2c_channel in filter(lambda x: x.startswith('i2c-'), devs):
                 i2c_id = i2c_channel[4:]
                 if i2c_id.isnumeric():
                     # Try to load the channel use SMBus2.
-                    i2c_proxy.append(BusI2CSmbus(bus_id=int(i2c_id)))
+                    i2c_proxy[i2c_id] = BusI2CSmbus(bus_id=int(i2c_id))
             self.i2c_buses = i2c_proxy
 
             load_i2c()
-

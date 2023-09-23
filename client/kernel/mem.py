@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pickle
 import multiprocessing
+from arch.base import HardwareAbstractLayer
 
 
 class MemoryProxy:
@@ -15,6 +16,9 @@ class MemoryProxy:
 
     def get(self, key: str):
         return self.__data[key]
+
+    def hal(self) -> HardwareAbstractLayer:
+        return self.get('hal')
 
 
 class Memory:
