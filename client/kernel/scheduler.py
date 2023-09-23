@@ -46,7 +46,7 @@ SCHEDULER_MAP = {
 
 def get_scheduler(mem_proxy: MemoryProxy) -> Scheduler:
     # Read the scheduler settings from usr directory.
-    def __get_user_setting() -> Tuple[List, type[Scheduler]]:
+    def __get_user_setting():
         # Set the default tasks and scheduler.
         usr_tasks = [TaskIdle()]
         usr_scheduler_type = FifoScheduler

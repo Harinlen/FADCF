@@ -1,7 +1,7 @@
 #!/bin/bash
 start_fadcf() {
   source runtime/bin/activate
-  python kernel/bootstrap.py
+  python3 kernel/bootstrap.py
 }
 
 start_fadcf

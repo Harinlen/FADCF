@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from base import SensorAccelerometer
+from drivers.sensor.accelerometer.base import SensorAccelerometer
 from arch.base import HardwareAbstractLayer
 from kernel.exception import LogNoBusError
 

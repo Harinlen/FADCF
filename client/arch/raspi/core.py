@@ -12,7 +12,8 @@ class HAL(HardwareAbstractLayer):
             raise RuntimeError('Raspberry PI HAL only supports Linux.')
 
         # Initial the device name.
-        self.device_name, _ = get_output('cat', '/sys/firmware/devicetree/base/model').decode('ascii')
+        device_name_bytes, _ = get_output('cat', '/sys/firmware/devicetree/base/model')
+        self.device_name = device_name_bytes.decode('ascii')
         os_bits, _ = get_output('getconf', 'LONG_BIT')
         self.bits = int(os_bits.decode('ascii').strip())
         # Get all the /dev files.
@@ -31,7 +32,8 @@ class HAL(HardwareAbstractLayer):
                 i2c_id = i2c_channel[4:]
                 if i2c_id.isnumeric():
                     # Try to load the channel use SMBus2.
-                    i2c_proxy[i2c_id] = BusI2CSmbus(bus_id=int(i2c_id))
+                    i2c_id = int(i2c_id)
+                    i2c_proxy[i2c_id] = BusI2CSmbus(bus_id=i2c_id)
             self.i2c_buses = i2c_proxy
 
-            load_i2c()
+        load_i2c()
